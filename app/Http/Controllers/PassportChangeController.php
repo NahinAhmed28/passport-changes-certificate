@@ -72,14 +72,13 @@ class PassportChangeController extends Controller
 
     public function print($id)
     {
-        $signature= Signature::first();
-
+        $signature = Signature::first();
         $passportChange = PassportChange::findOrFail($id);
 
-        $pdf = Pdf::loadView('passport.summary-print', compact('passportChange','signature'))
+        $pdf = Pdf::loadView('passport.summary-print', compact('passportChange', 'signature'))
             ->setPaper('A4', 'portrait');
 
-        return $pdf->download('passport_summary.pdf');
+        // Instead of download(), use stream() for direct preview
+        return $pdf->stream('passport_summary.pdf');
     }
-
 }

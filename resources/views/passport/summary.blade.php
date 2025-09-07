@@ -121,8 +121,18 @@
         <!-- Action Buttons -->
         <div class="d-flex justify-content-center gap-3 mt-4">
             <a href="{{ route('passport.index') }}" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">⬅ Back</a>
-            <a href="{{ route('passport.print', $passportChange->id) }}" class="btn btn-success px-4 rounded-pill shadow-sm">📄 Download PDF</a>
-            {{--            <button onclick="window.print()" class="btn btn-primary px-4 rounded-pill shadow-sm">🖨 Print</button>--}}
+            <!-- Download Button -->
+            <a href="{{ route('passport.print', $passportChange->id) }}?download=1"
+               class="btn btn-success px-4 rounded-pill shadow-sm">
+                📄 Download PDF
+            </a>
+
+            <!-- Print Button -->
+            <a href="{{ route('passport.print', $passportChange->id) }}"
+               target="_blank"
+               class="btn btn-primary px-4 rounded-pill shadow-sm">
+                🖨 Print PDF
+            </a>
         </div>
 
     </div>
