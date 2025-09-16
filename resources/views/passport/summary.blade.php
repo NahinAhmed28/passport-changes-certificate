@@ -181,7 +181,7 @@
             <div class="signature-block">
                 <span class="signature-text fw-bold">
                     @if ($signatureName)
-                        <span class="signature-name">{{ $signatureName }}</span>
+                        <span class="signature-name">( {{ $signatureName }} )</span>
                     @endif
                     @if ($signatureDesignation)
                         <span class="signature-designation">{{ $signatureDesignation }}</span>
@@ -193,16 +193,16 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <a href="{{ route('passport.index') }}" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">⬅ Back</a>
-            <a href="{{ route('passport.print', $passportChange->id) }}?download=1" class="btn btn-success px-4 rounded-pill shadow-sm">📄 Download PDF</a>
-            <a href="{{ route('passport.print', $passportChange->id) }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">🖨 Print PDF</a>
-        </div>
+        <footer class="text-center document-footer pt-3 mt-auto mb-0 fst-italic small">
+            Lot No. 2469, Simpang-1028, Kampong Tanah Jambu, Jalan Muara, Bandar Seri Begawan, Negara Brunei Darussalam.
+            Tel: 673-2342420 Fax: 673-2342421 | Email: mission.bandarseribegawan@mofa.gov.bd
+        </footer>
+    </div>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="{{ route('passport.index') }}" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">⬅ Back</a>
+        <a href="{{ route('passport.print', $passportChange->id) }}?download=1" class="btn btn-success px-4 rounded-pill shadow-sm">📄 Download PDF</a>
+        <a href="{{ route('passport.print', $passportChange->id) }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">🖨 Print PDF</a>
     </div>
 
-    <footer class="text-center document-footer pt-3 mt-auto mb-0 fst-italic small">
-        Lot No. 2469, Simpang-1028, Kampong Tanah Jambu, Jalan Muara, Bandar Seri Begawan, Negara Brunei Darussalam.
-        Tel: 673-2342420 Fax: 673-2342421 | Email: mission.bandarseribegawan@mofa.gov.bd
-    </footer>
 </div>
 @endsection
