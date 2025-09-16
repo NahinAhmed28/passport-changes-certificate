@@ -52,6 +52,7 @@
         .signature-designation {
             margin-top: 2px;
         }
+
     </style>
 @endpush
 
@@ -176,6 +177,7 @@
             if ($signatureDesignation === '') {
                 $signatureDesignation = null;
             }
+
         @endphp
 
         <div class="d-flex justify-content-end mt-5">
@@ -193,6 +195,7 @@
                         <span class="signature-line">&nbsp;</span>
                     @endif
                 </div>
+
             </div>
         </div>
 

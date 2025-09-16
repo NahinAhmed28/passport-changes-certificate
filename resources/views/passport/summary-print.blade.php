@@ -76,6 +76,7 @@
 
         .signature-designation {
             margin-top: 2px;
+
         }
 
         footer {
@@ -218,6 +219,7 @@
     if ($signatureDesignation === '') {
         $signatureDesignation = null;
     }
+
 @endphp
 
 <table class="signature-table">
@@ -238,6 +240,7 @@
                         <span class="signature-line">&nbsp;</span>
                     @endif
                 </div>
+
             </div>
         </td>
     </tr>
