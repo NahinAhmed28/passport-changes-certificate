@@ -35,12 +35,47 @@
             text-align: justify;
         }
 
-        .signature {
-            margin-top: 60px;
+        .signature-table {
+            width: 100%;
+            margin-top: 50px;
+            font-size: 12pt;
         }
 
-        .signature p {
-            margin: 0;
+        .signature-table td:first-child {
+            width: 55%;
+        }
+
+        .signature-table td:last-child {
+            width: 45%;
+        }
+
+        .signature-cell {
+            text-align: right;
+        }
+
+        .signature-wrapper {
+            display: inline-block;
+            min-width: 45%;
+            margin-top: 60px;
+            text-align: right;
+        }
+
+        .signature-text {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .signature-line {
+            display: block;
+            white-space: nowrap;
+        }
+
+        .signature-name {
+            font-weight: bold;
+        }
+
+        .signature-designation {
+            margin-top: 2px;
         }
 
         footer {
@@ -172,13 +207,37 @@
     <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
 </div>
 
-<table width="100%" style="margin-top: 50px; font-size: 12pt;">
+@php
+    $signatureName = filled($signature->name ?? null) ? trim((string) $signature->name) : null;
+    $signatureDesignation = filled($signature->designation ?? null) ? trim((string) $signature->designation) : null;
+
+    if ($signatureName === '') {
+        $signatureName = null;
+    }
+
+    if ($signatureDesignation === '') {
+        $signatureDesignation = null;
+    }
+@endphp
+
+<table class="signature-table">
     <tr>
-        <td style="width: 60%;"></td>
-        <td style="width: 40%; text-align: center;">
-            <div class="signature">
-                <p>{{ $signature->name }}</p>
-                <p>{{ $signature->designation }}</p>
+        <td></td>
+        <td class="signature-cell">
+            <div class="signature-wrapper">
+                <div class="signature-text">
+                    @if ($signatureName)
+                        <span class="signature-line signature-name">( {{ $signatureName }} )</span>
+                    @endif
+
+                    @if ($signatureDesignation)
+                        <span class="signature-line signature-designation">{{ $signatureDesignation }}</span>
+                    @endif
+
+                    @if (! $signatureName && ! $signatureDesignation)
+                        <span class="signature-line">&nbsp;</span>
+                    @endif
+                </div>
             </div>
         </td>
     </tr>
