@@ -48,16 +48,45 @@
 
         <div class="mt-4">
             @php
+                $formatName = static function (?string $value) {
+                    if ($value === null) {
+                        return null;
+                    }
+
+                    $value = trim($value);
+
+                    return $value === '' ? null : \Illuminate\Support\Str::title($value);
+                };
+
+                $formatPassportNumber = static function (?string $value) {
+                    if ($value === null) {
+                        return null;
+                    }
+
+                    $value = trim($value);
+
+                    return $value === '' ? null : \Illuminate\Support\Str::upper($value);
+                };
+
+                $newName = $formatName($passportChange->new_name ?? null);
+                $oldName = $formatName($passportChange->old_name ?? null);
+                $newFatherName = $formatName($passportChange->new_father_name ?? null);
+                $oldFatherName = $formatName($passportChange->old_father_name ?? null);
+                $newMotherName = $formatName($passportChange->new_mother_name ?? null);
+                $oldMotherName = $formatName($passportChange->old_mother_name ?? null);
+                $newPassportNumber = $formatPassportNumber($passportChange->new_passport_number ?? null);
+                $oldPassportNumber = $formatPassportNumber($passportChange->old_passport_number ?? null);
+
                 $text = "This is to certify that ";
 
-                if ($passportChange->new_name) {
-                    $text .= "{$passportChange->new_name} ";
+                if ($newName) {
+                    $text .= "{$newName} ";
                 } else {
                     $text .= "this person ";
                 }
 
-                if ($passportChange->new_passport_number) {
-                    $text .= "bearing Bangladesh passport no. {$passportChange->new_passport_number}";
+                if ($newPassportNumber) {
+                    $text .= "bearing Bangladesh passport no. {$newPassportNumber}";
                     if ($passportChange->new_passport_issue_date) {
                         $text .= " issued on " . \Carbon\Carbon::parse($passportChange->new_passport_issue_date)->format('d F Y');
                     }
@@ -66,24 +95,24 @@
 
                 $text .= "is a Bangladeshi citizen working in Brunei Darussalam. ";
 
-                if ($passportChange->old_passport_number) {
-                    $text .= "In his old passport no. {$passportChange->old_passport_number}, ";
+                if ($oldPassportNumber) {
+                    $text .= "In his old passport no. {$oldPassportNumber}, ";
                 }
 
                 $oldParts = [];
                 $newParts = [];
 
                 if ($passportChange->name_changed) {
-                    $oldParts[] = "his name has been mentioned as <strong>{$passportChange->old_name}</strong>";
-                    $newParts[] = "his actual name is <strong>{$passportChange->new_name}</strong>";
+                    $oldParts[] = "his name has been mentioned as <strong>{$oldName}</strong>";
+                    $newParts[] = "his actual name is <strong>{$newName}</strong>";
                 }
                 if ($passportChange->father_changed) {
-                    $oldParts[] = "his father’s name has been mentioned as <strong>{$passportChange->old_father_name}</strong>";
-                    $newParts[] = "his father’s actual name is <strong>{$passportChange->new_father_name}</strong>";
+                    $oldParts[] = "his father’s name has been mentioned as <strong>{$oldFatherName}</strong>";
+                    $newParts[] = "his father’s actual name is <strong>{$newFatherName}</strong>";
                 }
                 if ($passportChange->mother_changed) {
-                    $oldParts[] = "his mother’s name has been mentioned as <strong>{$passportChange->old_mother_name}</strong>";
-                    $newParts[] = "his mother’s actual name is <strong>{$passportChange->new_mother_name}</strong>";
+                    $oldParts[] = "his mother’s name has been mentioned as <strong>{$oldMotherName}</strong>";
+                    $newParts[] = "his mother’s actual name is <strong>{$newMotherName}</strong>";
                 }
                 if ($passportChange->dob_changed) {
                     $oldParts[] = "his date of birth has been mentioned as <strong>" . \Carbon\Carbon::parse($passportChange->old_dob)->format('d F Y') . "</strong>";
