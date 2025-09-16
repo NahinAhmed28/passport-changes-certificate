@@ -46,7 +46,16 @@
 
 <div class="mb-3">
     <label for="date" class="form-label">Date</label>
-    <input type="date" id="date" name="date" class="form-control" value="{{ $value('date', 'Y-m-d') }}">
+    <input
+        type="text"
+        id="date"
+        name="date"
+        class="form-control date-picker"
+        placeholder="DD-MM-YYYY"
+        inputmode="numeric"
+        pattern="\d{2}-\d{2}-\d{4}"
+        value="{{ $value('date', 'd-m-Y') }}"
+    >
 </div>
 
 <div class="mb-3">
@@ -68,7 +77,16 @@
 
 <div class="mb-3">
     <label for="new_passport_issue_date" class="form-label">New Passport Issue Date</label>
-    <input type="date" id="new_passport_issue_date" name="new_passport_issue_date" class="form-control" value="{{ $value('new_passport_issue_date', 'Y-m-d') }}">
+    <input
+        type="text"
+        id="new_passport_issue_date"
+        name="new_passport_issue_date"
+        class="form-control date-picker"
+        placeholder="DD-MM-YYYY"
+        inputmode="numeric"
+        pattern="\d{2}-\d{2}-\d{4}"
+        value="{{ $value('new_passport_issue_date', 'd-m-Y') }}"
+    >
 </div>
 
 <h5 class="mt-4">Changes</h5>
@@ -133,11 +151,29 @@
     <h5>Date of Birth Change</h5>
     <div class="mb-3">
         <label for="old_dob" class="form-label">Old Date of Birth</label>
-        <input type="date" id="old_dob" name="old_dob" class="form-control" value="{{ $value('old_dob', 'Y-m-d') }}">
+        <input
+            type="text"
+            id="old_dob"
+            name="old_dob"
+            class="form-control date-picker"
+            placeholder="DD-MM-YYYY"
+            inputmode="numeric"
+            pattern="\d{2}-\d{2}-\d{4}"
+            value="{{ $value('old_dob', 'd-m-Y') }}"
+        >
     </div>
     <div class="mb-3">
         <label for="new_dob" class="form-label">New Date of Birth</label>
-        <input type="date" id="new_dob" name="new_dob" class="form-control" value="{{ $value('new_dob', 'Y-m-d') }}">
+        <input
+            type="text"
+            id="new_dob"
+            name="new_dob"
+            class="form-control date-picker"
+            placeholder="DD-MM-YYYY"
+            inputmode="numeric"
+            pattern="\d{2}-\d{2}-\d{4}"
+            value="{{ $value('new_dob', 'd-m-Y') }}"
+        >
     </div>
 </div>
 
@@ -152,7 +188,12 @@
 </div>
 
 @once
+    @push('styles')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    @endpush
+
     @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 document.querySelectorAll('.change-toggle').forEach(function (toggle) {
@@ -170,6 +211,17 @@
                     toggle.addEventListener('change', toggleSection);
                     toggleSection();
                 });
+
+                if (window.flatpickr) {
+                    document.querySelectorAll('.date-picker').forEach(function (input) {
+                        window.flatpickr(input, {
+                            dateFormat: 'd-m-Y',
+                            allowInput: true,
+                            altInput: false,
+                            defaultDate: input.value || null,
+                        });
+                    });
+                }
             });
         </script>
     @endpush

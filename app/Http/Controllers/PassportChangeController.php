@@ -6,6 +6,7 @@ use App\Models\Signature;
 use Illuminate\Http\Request;
 use App\Models\PassportChange;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class PassportChangeController extends Controller
 {
@@ -26,6 +27,7 @@ class PassportChangeController extends Controller
     {
         $data = $request->all();
 
+        $data = $this->normaliseDates($data);
 
         // ✅ Normalize checkbox values
         $data['name_changed'] = $request->has('name_changed');
@@ -57,6 +59,8 @@ class PassportChangeController extends Controller
     {
         $data = $request->all();
 
+        $data = $this->normaliseDates($data);
+
         // Convert checkboxes to booleans
         $data['name_changed'] = $request->has('name_changed');
         $data['father_changed'] = $request->has('father_changed');
@@ -80,5 +84,50 @@ class PassportChangeController extends Controller
 
         // Instead of download(), use stream() for direct preview
         return $pdf->stream('passport_summary.pdf');
+    }
+
+    protected function normaliseDates(array $data): array
+    {
+        $dateFields = [
+            'date',
+            'new_passport_issue_date',
+            'old_dob',
+            'new_dob',
+        ];
+
+        foreach ($dateFields as $field) {
+            if (!array_key_exists($field, $data)) {
+                continue;
+            }
+
+            $data[$field] = $this->normaliseDateValue($data[$field] ?? null);
+        }
+
+        return $data;
+    }
+
+    protected function normaliseDateValue($value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        $formats = ['d-m-Y', 'Y-m-d'];
+
+        foreach ($formats as $format) {
+            try {
+                return Carbon::createFromFormat($format, $value)->format('Y-m-d');
+            } catch (\Throwable $exception) {
+                // Try next format
+            }
+        }
+
+        return null;
     }
 }
