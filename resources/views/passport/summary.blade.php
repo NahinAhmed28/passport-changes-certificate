@@ -2,6 +2,7 @@
 
 @section('title', 'Passport Change Summary')
 @section('body-class', 'document-page')
+@section('main-class', 'd-flex flex-column py-0')
 
 @push('styles')
     <style>
@@ -50,7 +51,7 @@
 @endpush
 
 @section('content')
-<div class="container my-5">
+<div class="container flex-grow-1 d-flex flex-column">
     <div class="document-card">
         <div class="text-center mb-3">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo mb-2">
@@ -186,7 +187,7 @@
         </div>
     </div>
 
-    <footer class="text-center document-footer pt-3 mt-5 fst-italic small">
+    <footer class="text-center document-footer pt-3 mt-auto mb-0 fst-italic small">
         Lot No. 2469, Simpang-1028, Kampong Tanah Jambu, Jalan Muara, Bandar Seri Begawan, Negara Brunei Darussalam.
         Tel: 673-2342420 Fax: 673-2342421 | Email: mission.bandarseribegawan@mofa.gov.bd
     </footer>
