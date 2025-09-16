@@ -31,6 +31,12 @@
             margin-top: 0;
         }
 
+        .page-width-divider {
+            border: none;
+            border-top: 1px solid #1c6b13;
+            margin: 0 -2cm 20px;
+        }
+
         .content {
             text-align: justify;
         }
@@ -93,7 +99,7 @@
     <h5 style="margin: 0px 80px 0px 80px">High Commission of the People’s Republic of Bangladesh</h5>
     <div class="sub-header">Brunei Darussalam</div>
 </div>
-<hr style="color:#1c6b13;width: 100%">
+<hr class="page-width-divider">
 
 <table width="100%" style="margin: 20px 0; font-size: 12pt;">
     <tr>
