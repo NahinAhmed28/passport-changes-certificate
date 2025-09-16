@@ -10,15 +10,27 @@
             font-family: "Times New Roman", Times, serif;
             font-size: 12pt;
             background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.document-page main {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
 
         .document-card {
             background: #fff;
-            padding: 40px;
+            padding: 0 40px 32px;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
             max-width: 900px;
             margin: 0 auto;
+        }
+
+        .document-container {
+            padding-top: 0;
+            padding-bottom: 0;
         }
 
         .document-card .logo {
@@ -28,6 +40,7 @@
         .document-footer {
             border-top: 1px solid #198754;
             color: #198754;
+            padding-bottom: 0;
         }
 
         .signature-block {
@@ -51,7 +64,7 @@
 @endpush
 
 @section('content')
-<div class="container flex-grow-1 d-flex flex-column">
+<div class="container flex-grow-1 d-flex flex-column document-container">
     <div class="document-card">
         <div class="text-center mb-3">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo mb-2">
