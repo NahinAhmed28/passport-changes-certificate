@@ -8,7 +8,7 @@
             font-family: "Times New Roman", Times, serif;
             font-size: 12pt;
             line-height: 1.6;
-            margin: 0cm 1.5cm 1.5cm 1.5cm;
+            margin: 0cm 1.5cm 0cm 1.5cm;
         }
 
         .header {
@@ -94,7 +94,7 @@
 
         footer {
             position: fixed;
-            bottom: -20px;
+            bottom: 0;
             left: 0;
             right: 0;
             font-size: 10pt;
