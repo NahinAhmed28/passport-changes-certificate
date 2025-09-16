@@ -6,14 +6,14 @@
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 12pt;
-            line-height: 1.6;
+            font-size: 11pt;
+            line-height: 1.26;
             margin: 0cm 2cm 2cm 2cm;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             font-style: italic;
             color: #1c6b13;
             font-weight: bold;
@@ -21,30 +21,44 @@
 
         .header h5 {
             margin: 0;
-            font-size: 12pt;
+            font-size: 11pt;
             font-weight: bold;
         }
 
         .sub-header {
             text-align: center;
-            font-size: 12pt;
-            margin-top: 0;
+            font-size: 11pt;
+            margin-top: 2px;
         }
 
         .page-width-divider {
             border: none;
-            border-top: 1px solid #1c6b13;
-            margin: 0 -2cm 20px;
+            border-top: 2px solid #1c6b13;
+            margin: 6px -2cm 18px;
+        }
+
+        .reference-table {
+            margin: 12px 0 16px;
+            font-size: 11pt;
         }
 
         .content {
             text-align: justify;
+            font-size: 11pt;
+        }
+
+        .content p {
+            margin: 0 0 10px;
+        }
+
+        .content p:last-child {
+            margin-bottom: 0;
         }
 
         .signature-table {
             width: 100%;
-            margin-top: 50px;
-            font-size: 12pt;
+            margin-top: 0.45in;
+            font-size: 11pt;
         }
 
         .signature-table td:first-child {
@@ -62,7 +76,7 @@
         .signature-wrapper {
             display: inline-block;
             min-width: 45%;
-            margin-top: 60px;
+            padding-top: 0.8in;
             text-align: right;
         }
 
@@ -101,7 +115,7 @@
 </div>
 <hr class="page-width-divider">
 
-<table width="100%" style="margin: 20px 0; font-size: 12pt;">
+<table class="reference-table" width="100%">
     <tr>
         <td style="text-align: left;">
             No. BHC/Bru/Cons/CA/{{ date('Y') }}/<strong>{{ $passportChange->serial ?? '___' }}</strong>
