@@ -6,8 +6,8 @@
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 11pt;
-            line-height: 1.26;
+            font-size: 12pt;
+            line-height: 1.6;
             margin: 0cm 2cm 2cm 2cm;
         }
 
@@ -21,13 +21,13 @@
 
         .header h5 {
             margin: 0;
-            font-size: 11pt;
+            font-size: 12pt;
             font-weight: bold;
         }
 
         .sub-header {
             text-align: center;
-            font-size: 11pt;
+            font-size: 12pt;
             margin-top: 2px;
         }
 
@@ -39,12 +39,12 @@
 
         .reference-table {
             margin: 12px 0 16px;
-            font-size: 11pt;
+            font-size: 12pt;
         }
 
         .content {
             text-align: justify;
-            font-size: 11pt;
+            font-size: 12pt;
         }
 
         .content p {
@@ -58,7 +58,7 @@
         .signature-table {
             width: 100%;
             margin-top: 0.45in;
-            font-size: 11pt;
+            font-size: 12pt;
         }
 
         .signature-table td:first-child {
