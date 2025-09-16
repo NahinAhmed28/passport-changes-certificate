@@ -35,12 +35,35 @@
             text-align: justify;
         }
 
-        .signature {
-            margin-top: 60px;
+        .signature-table {
+            width: 100%;
+            margin-top: 50px;
+            font-size: 12pt;
         }
 
-        .signature p {
-            margin: 0;
+        .signature-table td:first-child {
+            width: 55%;
+        }
+
+        .signature-table td:last-child {
+            width: 45%;
+        }
+
+        .signature-cell {
+            text-align: right;
+        }
+
+        .signature-wrapper {
+            display: inline-block;
+            min-width: 45%;
+            margin-top: 60px;
+            text-align: right;
+        }
+
+        .signature-text {
+            display: inline-block;
+            white-space: nowrap;
+            font-weight: bold;
         }
 
         footer {
@@ -172,13 +195,20 @@
     <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
 </div>
 
-<table width="100%" style="margin-top: 50px; font-size: 12pt;">
+@php
+    $signatureLine = implode(', ', array_filter([
+        $signature->name ?? null,
+        $signature->designation ?? null,
+    ], static fn ($value) => filled($value)));
+    $signatureDisplay = $signatureLine !== '' ? '( ' . $signatureLine . ' )' : "\u{00A0}";
+@endphp
+
+<table class="signature-table">
     <tr>
-        <td style="width: 60%;"></td>
-        <td style="width: 40%; text-align: center;">
-            <div class="signature">
-                <p>{{ $signature->name }}</p>
-                <p>{{ $signature->designation }}</p>
+        <td></td>
+        <td class="signature-cell">
+            <div class="signature-wrapper">
+                <span class="signature-text">{{ $signatureDisplay }}</span>
             </div>
         </td>
     </tr>
