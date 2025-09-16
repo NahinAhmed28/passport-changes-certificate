@@ -28,6 +28,17 @@
             border-top: 1px solid #198754;
             color: #198754;
         }
+
+        .signature-block {
+            margin-left: auto;
+            min-width: 45%;
+            text-align: right;
+        }
+
+        .signature-block span {
+            display: inline-block;
+            white-space: nowrap;
+        }
     </style>
 @endpush
 
@@ -141,11 +152,17 @@
             <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
         </div>
 
-        <div class="row mt-5">
-            <div class="col-7"></div>
-            <div class="col-5 text-center">
-                <p class="fw-bold mb-0">( {{ $signature->name }} )</p>
-                <p class="mb-0">{{ $signature->designation }}</p>
+        @php
+            $signatureLine = implode(', ', array_filter([
+                $signature->name ?? null,
+                $signature->designation ?? null,
+            ], static fn ($value) => filled($value)));
+            $signatureDisplay = $signatureLine !== '' ? '( ' . $signatureLine . ' )' : "\u{00A0}";
+        @endphp
+
+        <div class="d-flex justify-content-end mt-5">
+            <div class="signature-block">
+                <span class="fw-bold">{{ $signatureDisplay }}</span>
             </div>
         </div>
 
