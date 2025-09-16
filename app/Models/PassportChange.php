@@ -33,12 +33,15 @@ class PassportChange extends Model
     ];
 
     protected $casts = [
+        'date' => 'date',
         'name_changed' => 'boolean',
         'father_changed' => 'boolean',
         'mother_changed' => 'boolean',
         'dob_changed' => 'boolean',
         'nid' => 'boolean',  // ✅ Cast as boolean
         'brc' => 'boolean',  // ✅ Cast as boolean
+        'old_dob' => 'date',
+        'new_dob' => 'date',
         'new_passport_issue_date' => 'date',  // ✅ Cast properly
 
     ];

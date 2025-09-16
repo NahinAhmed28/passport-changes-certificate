@@ -40,7 +40,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $record->serial }}</td>
-                    <td>{{ $record->date }}</td>
+                    <td>{{ $record->date?->format('d-m-Y') }}</td>
                     <td>{{ $record->old_passport_number }}</td>
                     <td>{{ $record->new_passport_number }}</td>
                     <td class="text-center">
