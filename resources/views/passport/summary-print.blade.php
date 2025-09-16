@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+@extends('layouts.pdf')
+
+@section('title', 'Passport Change Summary')
+
+@push('styles')
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -16,7 +17,6 @@
             font-style: italic;
             color: #1c6b13;
             font-weight: bold;
-
         }
 
         .header h5 {
@@ -29,13 +29,6 @@
             text-align: center;
             font-size: 12pt;
             margin-top: 0;
-        }
-
-        .ref-date {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-            font-size: 12pt;
         }
 
         .content {
@@ -59,21 +52,20 @@
             text-align: center;
             border-top: 1px solid #1c6b13;
             padding-top: 5px;
-            color:#1c6b13 ;
+            color: #1c6b13;
             font-style: italic;
         }
     </style>
-</head>
-<body>
+@endpush
 
-<!-- Header -->
+@section('content')
 <div class="header">
     <img src="{{ public_path('images/logo.png') }}" alt="Logo" style="height: 80px;">
     <h5 style="margin: 0px 80px 0px 80px">High Commission of the People’s Republic of Bangladesh</h5>
     <div class="sub-header">Brunei Darussalam</div>
 </div>
 <hr style="color:#1c6b13;width: 100%">
-<!-- Reference and Date -->
+
 <table width="100%" style="margin: 20px 0; font-size: 12pt;">
     <tr>
         <td style="text-align: left;">
@@ -85,21 +77,16 @@
     </tr>
 </table>
 
-
-<!-- Main Paragraph -->
 <div class="content">
-    <p>
     @php
         $text = "This is to certify that ";
 
-        // Name (just display, don't bold)
         if ($passportChange->new_name) {
             $text .= "{$passportChange->new_name} ";
         } else {
             $text .= "this person ";
         }
 
-        // Passport number and issue date (normal, not bold)
         if ($passportChange->new_passport_number) {
             $text .= "bearing Bangladesh passport no. {$passportChange->new_passport_number}";
             if ($passportChange->new_passport_issue_date) {
@@ -110,12 +97,10 @@
 
         $text .= "is a Bangladeshi citizen working in Brunei Darussalam. ";
 
-        // Old passport
         if ($passportChange->old_passport_number) {
             $text .= "In his old passport no. {$passportChange->old_passport_number}, ";
         }
 
-        // Only bold changed info (name, father, mother, DOB)
         $oldParts = [];
         $newParts = [];
 
@@ -141,7 +126,6 @@
             $text .= implode(', ', $newParts) . " as mentioned in ";
         }
 
-        // NID and BRC (normal text)
         if ($passportChange->nid && $passportChange->brc) {
             $text .= "his National Identity Card (NID) and Birth Certificate (BRC) issued by the competent authority in Bangladesh.";
         } elseif ($passportChange->nid) {
@@ -151,34 +135,25 @@
         }
     @endphp
 
-    <p class="text-justify">{!! $text !!}</p>
+    <p>{!! $text !!}</p>
 
     <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
-
 </div>
 
-<!-- Signature -->
 <table width="100%" style="margin-top: 50px; font-size: 12pt;">
     <tr>
-        <!-- Wide empty column -->
         <td style="width: 60%;"></td>
-
-        <!-- Signature column -->
         <td style="width: 40%; text-align: center;">
             <div class="signature">
-                <p> {{ ($signature->name) }}</p>
+                <p>{{ $signature->name }}</p>
                 <p>{{ $signature->designation }}</p>
             </div>
         </td>
     </tr>
 </table>
 
-
-<!-- Footer -->
 <footer>
     Lot No. 2469, Simpang-1028, Kampong Tanah Jambu, Jalan Muara, Bandar Seri Begawan, Negara Brunei Darussalam.
     Tel: 673-2342420 Fax: 673-2342421, Web: mission.bandarseribegawan@mofa.gov.bd
 </footer>
-
-</body>
-</html>
+@endsection

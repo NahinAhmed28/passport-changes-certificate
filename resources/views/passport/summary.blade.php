@@ -1,31 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@extends('layouts.app')
+
+@section('title', 'Passport Change Summary')
+@section('body-class', 'document-page')
+
+@push('styles')
     <style>
-        body {
+        body.document-page {
             font-family: "Times New Roman", Times, serif;
             font-size: 12pt;
             background-color: #f8f9fa;
         }
+
         .document-card {
             background: #fff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .logo {
+
+        .document-card .logo {
             height: 80px;
         }
-    </style>
-</head>
-<body>
 
+        .document-footer {
+            border-top: 1px solid #198754;
+            color: #198754;
+        }
+    </style>
+@endpush
+
+@section('content')
 <div class="container my-5">
     <div class="document-card">
-
-        <!-- Header -->
         <div class="text-center mb-3">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo mb-2">
             <h4 class="fw-bold text-success mb-0">High Commission of the People’s Republic of Bangladesh</h4>
@@ -33,25 +41,21 @@
         </div>
         <hr class="border-2 border-success opacity-75">
 
-        <!-- Reference and Date -->
         <div class="d-flex justify-content-between my-3">
             <div><strong>No.</strong> BHC/Bru/Cons/CA/{{ date('Y') }}/{{ $passportChange->serial ?? '___' }}</div>
             <div><strong>Date:</strong> {{ \Carbon\Carbon::parse($passportChange->date ?? now())->format('d F Y') }}</div>
         </div>
 
-        <!-- Main Paragraph -->
         <div class="mt-4">
             @php
                 $text = "This is to certify that ";
 
-                // Name (just display, don't bold)
                 if ($passportChange->new_name) {
                     $text .= "{$passportChange->new_name} ";
                 } else {
                     $text .= "this person ";
                 }
 
-                // Passport number and issue date (normal, not bold)
                 if ($passportChange->new_passport_number) {
                     $text .= "bearing Bangladesh passport no. {$passportChange->new_passport_number}";
                     if ($passportChange->new_passport_issue_date) {
@@ -62,12 +66,10 @@
 
                 $text .= "is a Bangladeshi citizen working in Brunei Darussalam. ";
 
-                // Old passport
                 if ($passportChange->old_passport_number) {
                     $text .= "In his old passport no. {$passportChange->old_passport_number}, ";
                 }
 
-                // Only bold changed info (name, father, mother, DOB)
                 $oldParts = [];
                 $newParts = [];
 
@@ -93,7 +95,6 @@
                     $text .= implode(', ', $newParts) . " as mentioned in ";
                 }
 
-                // NID and BRC (normal text)
                 if ($passportChange->nid && $passportChange->brc) {
                     $text .= "his National Identity Card (NID) and Birth Certificate (BRC) issued by the competent authority in Bangladesh.";
                 } elseif ($passportChange->nid) {
@@ -106,43 +107,26 @@
             <p class="text-justify">{!! $text !!}</p>
 
             <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
-
         </div>
 
-        <!-- Signature -->
         <div class="row mt-5">
             <div class="col-7"></div>
             <div class="col-5 text-center">
                 <p class="fw-bold mb-0">( {{ $signature->name }} )</p>
-                <p class="mb-0">{{ $signature->designation}}</p>
+                <p class="mb-0">{{ $signature->designation }}</p>
             </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="d-flex justify-content-center gap-3 mt-4">
             <a href="{{ route('passport.index') }}" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">⬅ Back</a>
-            <!-- Download Button -->
-            <a href="{{ route('passport.print', $passportChange->id) }}?download=1"
-               class="btn btn-success px-4 rounded-pill shadow-sm">
-                📄 Download PDF
-            </a>
-
-            <!-- Print Button -->
-            <a href="{{ route('passport.print', $passportChange->id) }}"
-               target="_blank"
-               class="btn btn-primary px-4 rounded-pill shadow-sm">
-                🖨 Print PDF
-            </a>
+            <a href="{{ route('passport.print', $passportChange->id) }}?download=1" class="btn btn-success px-4 rounded-pill shadow-sm">📄 Download PDF</a>
+            <a href="{{ route('passport.print', $passportChange->id) }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">🖨 Print PDF</a>
         </div>
-
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center border-top border-success pt-3 mt-5 fst-italic text-success small">
+    <footer class="text-center document-footer pt-3 mt-5 fst-italic small">
         Lot No. 2469, Simpang-1028, Kampong Tanah Jambu, Jalan Muara, Bandar Seri Begawan, Negara Brunei Darussalam.
         Tel: 673-2342420 Fax: 673-2342421 | Email: mission.bandarseribegawan@mofa.gov.bd
     </footer>
 </div>
-
-</body>
-</html>
+@endsection

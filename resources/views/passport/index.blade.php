@@ -1,66 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passport Change Records</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-<div class="container my-5">
+@extends('layouts.app')
+
+@section('title', 'Passport Change Records')
+
+@section('content')
+<div class="container">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-2">
-        <h2 class="mb-2 mb-md-0">Passport Change Records</h2>
+        <h2 class="mb-0">Passport Change Records</h2>
         <div class="d-flex flex-wrap gap-2">
             <a href="{{ route('passport.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> Add New
+                <i class="bi bi-plus-lg me-2"></i> Add New
             </a>
             <a href="{{ route('signature.edit') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-pencil-square"></i> Update Certificate Signature
+                <i class="bi bi-pencil-square me-2"></i> Update Certificate Signature
             </a>
         </div>
     </div>
 
-
-@if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Serial</th>
-            <th>Date</th>
-            <th>Old Passport No</th>
-            <th>New Passport No</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @forelse($records as $record)
+    <div class="table-responsive shadow-sm">
+        <table class="table table-bordered table-striped align-middle mb-0">
+            <thead class="table-light">
             <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $record->serial }}</td>
-                <td>{{ $record->date }}</td>
-                <td>{{ $record->old_passport_number }}</td>
-                <td>{{ $record->new_passport_number }}</td>
-                <td>
-                    <a href="{{ route('passport.show', $record->id) }}" class="btn btn-sm btn-info">Details</a>
-                    <a href="{{ route('passport.edit', $record->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <th scope="col" style="width: 60px;">#</th>
+                <th scope="col">Serial</th>
+                <th scope="col">Date</th>
+                <th scope="col">Old Passport No</th>
+                <th scope="col">New Passport No</th>
+                <th scope="col" class="text-center" style="width: 200px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($records as $record)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $record->serial }}</td>
+                    <td>{{ $record->date }}</td>
+                    <td>{{ $record->old_passport_number }}</td>
+                    <td>{{ $record->new_passport_number }}</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="{{ route('passport.show', $record->id) }}" class="btn btn-sm btn-info text-white">
+                                Details
+                            </a>
+                            <a href="{{ route('passport.edit', $record->id) }}" class="btn btn-sm btn-warning text-white">
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center py-4">No records found.</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    </div>
 
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="6" class="text-center">No records found.</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
-    <!-- Pagination links -->
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
         {{ $records->links('pagination::bootstrap-5') }}
     </div>
 </div>
-</body>
-</html>
+@endsection
