@@ -69,7 +69,7 @@
 <table width="100%" style="margin: 20px 0; font-size: 12pt;">
     <tr>
         <td style="text-align: left;">
-            No. BHC/Bru/Cons/CA/{{ date('Y') }}/{{ $passportChange->serial ?? '___' }}
+            No. BHC/Bru/Cons/CA/{{ date('Y') }}/<strong>{{ $passportChange->serial ?? '___' }}</strong>
         </td>
         <td style="text-align: right;">
             Date: {{ \Carbon\Carbon::parse($passportChange->date ?? now())->format('d F Y') }}

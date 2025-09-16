@@ -42,7 +42,7 @@
         <hr class="border-2 border-success opacity-75">
 
         <div class="d-flex justify-content-between my-3">
-            <div><strong>No.</strong> BHC/Bru/Cons/CA/{{ date('Y') }}/{{ $passportChange->serial ?? '___' }}</div>
+            <div><strong>No.</strong> BHC/Bru/Cons/CA/{{ date('Y') }}/<strong>{{ $passportChange->serial ?? '___' }}</strong> </div>
             <div><strong>Date:</strong> {{ \Carbon\Carbon::parse($passportChange->date ?? now())->format('d F Y') }}</div>
         </div>
 
