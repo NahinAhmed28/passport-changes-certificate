@@ -121,8 +121,11 @@
             $newParts[] = "his actual date of birth is <strong>" . \Carbon\Carbon::parse($passportChange->new_dob)->format('d F Y') . "</strong>";
         }
 
-        if (count($oldParts) > 0) {
-            $text .= implode(', ', $oldParts) . ", which are not correct. ";
+        $changeCount = count($oldParts);
+
+        if ($changeCount > 0) {
+            $text .= implode(', ', $oldParts);
+            $text .= $changeCount > 1 ? ", which are not correct. " : ", which is not correct. ";
             $text .= implode(', ', $newParts) . " as mentioned in ";
         }
 
