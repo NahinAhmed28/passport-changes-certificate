@@ -8,7 +8,7 @@
             font-family: "Times New Roman", Times, serif;
             font-size: 12pt;
             line-height: 1.6;
-            margin: 0cm 2cm 2cm 2cm;
+            margin: 0cm 1.5cm 1.5cm 1.5cm;
         }
 
         .header {
