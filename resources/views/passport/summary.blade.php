@@ -35,9 +35,16 @@
             text-align: right;
         }
 
-        .signature-block span {
-            display: inline-block;
+        .signature-text {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
             white-space: nowrap;
+        }
+
+        .signature-name,
+        .signature-designation {
+            display: block;
         }
     </style>
 @endpush
@@ -152,17 +159,23 @@
             <p>02. All concerned are requested to kindly extend necessary cooperation.</p>
         </div>
 
-        @php
-            $signatureLine = implode(', ', array_filter([
-                $signature->name ?? null,
-                $signature->designation ?? null,
-            ], static fn ($value) => filled($value)));
-            $signatureDisplay = $signatureLine !== '' ? '( ' . $signatureLine . ' )' : "\u{00A0}";
-        @endphp
-
         <div class="d-flex justify-content-end mt-5">
+            @php
+                $signatureName = filled($signature->name ?? null) ? trim($signature->name) : null;
+                $signatureDesignation = filled($signature->designation ?? null) ? trim($signature->designation) : null;
+            @endphp
             <div class="signature-block">
-                <span class="fw-bold">{{ $signatureDisplay }}</span>
+                <span class="signature-text fw-bold">
+                    @if ($signatureName)
+                        <span class="signature-name">{{ $signatureName }}</span>
+                    @endif
+                    @if ($signatureDesignation)
+                        <span class="signature-designation">{{ $signatureDesignation }}</span>
+                    @endif
+                    @unless ($signatureName || $signatureDesignation)
+                        &nbsp;
+                    @endunless
+                </span>
             </div>
         </div>
 
