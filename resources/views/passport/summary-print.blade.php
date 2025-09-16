@@ -61,9 +61,16 @@
         }
 
         .signature-text {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
             white-space: nowrap;
             font-weight: bold;
+        }
+
+        .signature-name,
+        .signature-designation {
+            display: block;
         }
 
         footer {
@@ -196,11 +203,8 @@
 </div>
 
 @php
-    $signatureLine = implode(', ', array_filter([
-        $signature->name ?? null,
-        $signature->designation ?? null,
-    ], static fn ($value) => filled($value)));
-    $signatureDisplay = $signatureLine !== '' ? '( ' . $signatureLine . ' )' : "\u{00A0}";
+    $signatureName = filled($signature->name ?? null) ? trim($signature->name) : null;
+    $signatureDesignation = filled($signature->designation ?? null) ? trim($signature->designation) : null;
 @endphp
 
 <table class="signature-table">
@@ -208,7 +212,17 @@
         <td></td>
         <td class="signature-cell">
             <div class="signature-wrapper">
-                <span class="signature-text">{{ $signatureDisplay }}</span>
+                <span class="signature-text">
+                    @if ($signatureName)
+                        <span class="signature-name">{{ $signatureName }}</span>
+                    @endif
+                    @if ($signatureDesignation)
+                        <span class="signature-designation">{{ $signatureDesignation }}</span>
+                    @endif
+                    @unless ($signatureName || $signatureDesignation)
+                        &nbsp;
+                    @endunless
+                </span>
             </div>
         </td>
     </tr>
