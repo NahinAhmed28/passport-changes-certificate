@@ -61,9 +61,8 @@
         }
 
         .signature-text {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
+            display: inline-block;
+            text-align: center;
             white-space: nowrap;
             font-weight: bold;
         }
