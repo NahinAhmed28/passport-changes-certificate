@@ -13,7 +13,7 @@
         html, body { margin: 0; padding: 0; }
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 13pt;
+            font-size: 13.5pt;
             line-height: 1.6;
         }
 
@@ -35,7 +35,7 @@
             margin: 0 auto;
         }
         .header h4, .header h5 { margin: 0; font-weight: bold; }
-        .sub-header { text-align: center; font-size: 13pt; margin-top: 2px; }
+        .sub-header { text-align: center; font-size: 14pt; margin-top: 2px; }
 
         .page-width-divider {
             border: none;
@@ -43,12 +43,12 @@
             margin: 6px 0 18px;
         }
 
-        .reference-table { margin: 12px 0 16px; font-size: 13pt; width: 100%; }
-        .content { text-align: justify; font-size: 13pt; }
+        .reference-table { margin: 40px 0 16px; font-size: 13.5pt; width: 100%; }
+        .content { text-align: justify; font-size: 13.5pt; }
         .content p { margin: 0 0 10px; }
         .content p:last-child { margin-bottom: 0; }
 
-        .signature-table { width: 100%; margin-top: 0.45in; font-size: 13pt; }
+        .signature-table { width: 100%; margin-top: 0.45in; font-size: 13.5pt; }
         .signature-table td:first-child { width: 55%; }
         .signature-table td:last-child  { width: 45%; }
         .signature-cell { text-align: right; }
