@@ -19,7 +19,7 @@
 
         /* Content wrapper (applies side margins) */
         .page-content {
-            padding: 0 1.5cm;
+            padding: .5cm 2.5cm;
         }
 
         .header {
@@ -54,7 +54,13 @@
         .signature-cell { text-align: right; }
         .signature-wrapper { display: inline-block; min-width: 45%; padding-top: 0.8in; text-align: right; }
         .signature-text { display: inline-block; text-align: center; white-space: nowrap; }
-        .signature-name, .signature-designation { display: block; }
+        .signature-name,
+        .signature-designation {
+            display: block;       /* keep them stacked vertically */
+            margin: 0;            /* remove default spacing */
+            padding: 0;
+            line-height: 1;       /* tighten line spacing */
+        }
 
         /* Footer */
         footer {
@@ -102,6 +108,7 @@
                 $formatName = static fn (?string $v) => $v && trim($v) !== '' ? \Illuminate\Support\Str::title(trim($v)) : null;
                 $formatPassportNumber = static fn (?string $v) => $v && trim($v) !== '' ? \Illuminate\Support\Str::upper(trim($v)) : null;
 
+                $name = $formatName($passportChange->name ?? null);
                 $newName = $formatName($passportChange->new_name ?? null);
                 $oldName = $formatName($passportChange->old_name ?? null);
                 $newFatherName = $formatName($passportChange->new_father_name ?? null);
@@ -112,7 +119,7 @@
                 $oldPassportNumber = $formatPassportNumber($passportChange->old_passport_number ?? null);
 
                 $text = "This is to certify that ";
-                $text .= $newName ? "{$newName} " : "this person ";
+                $text .= $name ? "{$name} " : "this person ";
 
                 if ($newPassportNumber) {
                     $text .= "bearing Bangladesh passport no. {$newPassportNumber}";
@@ -188,7 +195,8 @@
                         @unless ($signatureName || $signatureDesignation)
                             &nbsp;
                         @endunless
-                    </span>
+                        </span>
+
                     </div>
                 </td>
             </tr>
