@@ -131,6 +131,15 @@
                     $text .= "In his old passport no. {$oldPassportNumber}, ";
                 }
 
+                // Helpers to adjust only the *first* alphabetical character (skips leading tags/spaces)
+                $capitalizeFirstAlpha = static function (string $s): string {
+                return preg_replace_callback(
+                '/^(\s*(?:<[^>]+>\s*)*)(\p{L})/u',
+                fn($m) => $m[1] . mb_strtoupper($m[2], 'UTF-8'),
+                $s
+                );
+            };
+
                 $oldParts = [];
                 $newParts = [];
 
@@ -151,13 +160,25 @@
                     $newParts[] = "his actual date of birth is <strong>" . \Carbon\Carbon::parse($passportChange->new_dob)->format('d F Y') . "</strong>";
                 }
 
-                $changeCount = count($oldParts);
+                    $changeCount = count($oldParts);
 
-                if ($changeCount > 0) {
-                    $text .= implode(', ', $oldParts);
+                    if ($changeCount > 0) {
+                    // Join the "old" clause. If there was NO "In his old passport..." lead-in,
+                    // we are starting a new sentence -> capitalize the first alphabetical letter.
+                    $oldClause = implode(', ', $oldParts);
+                    if (empty($oldPassportNumber)) {
+                        $oldClause = $capitalizeFirstAlpha($oldClause); // becomes "His …"
+                    }
+                    $text .= $oldClause;
+
                     $text .= $changeCount > 1 ? ", which are not correct. " : ", which is not correct. ";
-                    $text .= implode(', ', $newParts) . " as mentioned in ";
+
+                    // "New" clause always starts a fresh sentence after a period -> capitalize.
+                    $newClause = implode(', ', $newParts);
+                    $newClause = $capitalizeFirstAlpha($newClause); // "His actual …"
+                    $text .= $newClause . " as mentioned in ";
                 }
+
 
                 if ($passportChange->nid && $passportChange->brc) {
                     $text .= "his National Identity Card (NID) and Birth Certificate (BRC) issued by the competent authority in Bangladesh.";

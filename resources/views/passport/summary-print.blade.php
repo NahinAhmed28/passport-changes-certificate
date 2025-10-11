@@ -105,10 +105,26 @@
 
         <div class="content">
             @php
-                $formatName = static fn (?string $v) => $v && trim($v) !== '' ? \Illuminate\Support\Str::title(trim($v)) : null;
-                $formatPassportNumber = static fn (?string $v) => $v && trim($v) !== '' ? \Illuminate\Support\Str::upper(trim($v)) : null;
+                $formatName = static function (?string $value) {
+                    if ($value === null) {
+                        return null;
+                    }
 
-                $name = $formatName($passportChange->name ?? null);
+                    $value = trim($value);
+
+                    return $value === '' ? null : \Illuminate\Support\Str::title($value);
+                };
+
+                $formatPassportNumber = static function (?string $value) {
+                    if ($value === null) {
+                        return null;
+                    }
+
+                    $value = trim($value);
+
+                    return $value === '' ? null : \Illuminate\Support\Str::upper($value);
+                };
+
                 $newName = $formatName($passportChange->new_name ?? null);
                 $oldName = $formatName($passportChange->old_name ?? null);
                 $newFatherName = $formatName($passportChange->new_father_name ?? null);
@@ -119,7 +135,12 @@
                 $oldPassportNumber = $formatPassportNumber($passportChange->old_passport_number ?? null);
 
                 $text = "This is to certify that ";
-                $text .= $name ? "{$name} " : "this person ";
+
+                if ($newName) {
+                    $text .= "{$newName} ";
+                } else {
+                    $text .= "this person ";
+                }
 
                 if ($newPassportNumber) {
                     $text .= "bearing Bangladesh passport no. {$newPassportNumber}";
@@ -135,32 +156,54 @@
                     $text .= "In his old passport no. {$oldPassportNumber}, ";
                 }
 
+                // Helpers to adjust only the *first* alphabetical character (skips leading tags/spaces)
+                $capitalizeFirstAlpha = static function (string $s): string {
+                return preg_replace_callback(
+                '/^(\s*(?:<[^>]+>\s*)*)(\p{L})/u',
+                fn($m) => $m[1] . mb_strtoupper($m[2], 'UTF-8'),
+                $s
+                );
+            };
+
                 $oldParts = [];
                 $newParts = [];
 
                 if ($passportChange->name_changed) {
-                    $oldParts[] = "his name has been mentioned as {$oldName}";
+                    $oldParts[] = "his name has been mentioned as <strong>{$oldName}</strong>";
                     $newParts[] = "his actual name is <strong>{$newName}</strong>";
                 }
                 if ($passportChange->father_changed) {
-                    $oldParts[] = "his father’s name has been mentioned as {$oldFatherName}";
+                    $oldParts[] = "his father’s name has been mentioned as <strong>{$oldFatherName}</strong>";
                     $newParts[] = "his father’s actual name is <strong>{$newFatherName}</strong>";
                 }
                 if ($passportChange->mother_changed) {
-                    $oldParts[] = "his mother’s name has been mentioned as {$oldMotherName}";
+                    $oldParts[] = "his mother’s name has been mentioned as <strong>{$oldMotherName}</strong>";
                     $newParts[] = "his mother’s actual name is <strong>{$newMotherName}</strong>";
                 }
                 if ($passportChange->dob_changed) {
-                    $oldParts[] = "his date of birth has been mentioned as " . \Carbon\Carbon::parse($passportChange->old_dob)->format('d F Y');
+                    $oldParts[] = "his date of birth has been mentioned as <strong>" . \Carbon\Carbon::parse($passportChange->old_dob)->format('d F Y') . "</strong>";
                     $newParts[] = "his actual date of birth is <strong>" . \Carbon\Carbon::parse($passportChange->new_dob)->format('d F Y') . "</strong>";
                 }
 
-                $changeCount = count($oldParts);
-                if ($changeCount > 0) {
-                    $text .= implode(', ', $oldParts);
+                    $changeCount = count($oldParts);
+
+                    if ($changeCount > 0) {
+                    // Join the "old" clause. If there was NO "In his old passport..." lead-in,
+                    // we are starting a new sentence -> capitalize the first alphabetical letter.
+                    $oldClause = implode(', ', $oldParts);
+                    if (empty($oldPassportNumber)) {
+                        $oldClause = $capitalizeFirstAlpha($oldClause); // becomes "His …"
+                    }
+                    $text .= $oldClause;
+
                     $text .= $changeCount > 1 ? ", which are not correct. " : ", which is not correct. ";
-                    $text .= implode(', ', $newParts) . " as mentioned in ";
+
+                    // "New" clause always starts a fresh sentence after a period -> capitalize.
+                    $newClause = implode(', ', $newParts);
+                    $newClause = $capitalizeFirstAlpha($newClause); // "His actual …"
+                    $text .= $newClause . " as mentioned in ";
                 }
+
 
                 if ($passportChange->nid && $passportChange->brc) {
                     $text .= "his National Identity Card (NID) and Birth Certificate (BRC) issued by the competent authority in Bangladesh.";
